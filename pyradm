@@ -1,0 +1,23 @@
+#!/usr/bin/python
+
+from os.path import expanduser
+from config import Config
+from pyIMAP import IMAP, IMAPError
+from cli import IMAPAdminCLI
+
+configFile = expanduser("~") + "/.pyradm"
+try:
+  configF = eval(file(configFile).readlines())
+  config = Config()
+
+  try:
+    imap = IMAP(config['server']['host'], config['server']['port'], config['connection']['ssl'])
+    imap.login(config['credentials']['user'], config['credentials']['passwd'])
+    cli = IMAPAdminCLI(imap, config)
+    cli.run()
+
+  except IMAPError, e:
+    print "ERROR: " + str(e)
+
+except IOError, e:
+  print "ERROR: can't read config file: %s" % (str(e))
