@@ -309,7 +309,7 @@ div.pagenav-next input.button {
 
 /* --------------- Links ------------------ */
 
-a {
+a, a:active, a:visited {
   color:#cc6714;
   text-decoration:none;
 }
@@ -320,7 +320,7 @@ a:hover {
 }
 
 /* external link */
-a.urlextern{
+a.urlextern, a.urlextern:active, a.urlextern:visited {
     background: transparent url(images/link_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
     color:#cc6714;
@@ -334,7 +334,7 @@ a.urlextern:hover {
 }
 
 /* windows share */
-a.windows{
+a.windows, a.windows:active, a.windows:visited {
     background: transparent url(images/windows.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
     color:#cc6714;
@@ -348,21 +348,20 @@ a.windows:hover {
 }
 
 /* interwiki link */
-a.interwiki{
+a.interwiki, a.interwiki:active, a.interwiki:visited {
     background: transparent url(images/interwiki.png) 0px 1px no-repeat;
 		padding-left: 16px;
     color:#cc6714;
     text-decoration:none;
 }
-a.interwiki:visited {
-  color:Purple;
-}
+
 a.interwiki:hover {
-  text-decoration:underline;
+  color:#cc6714;
+  background-color: #f5f5f5;
 }
 
 /* link to some embedded media */
-a.media {
+a.media, a.media:active, a.media:visited {
   color:#cc6714;
   text-decoration:none;
 }
@@ -372,7 +371,7 @@ a.media:hover {
 }
 
 /* email link */
-a.mail {
+a.mail, a.mail:active, a.mail:visited {
   background: transparent url(images/mail_icon.gif) 0px 1px no-repeat;
   padding: 1px 0px 1px 16px;
   color:#cc6714;
@@ -643,7 +642,7 @@ ul.toc li.clear {
   padding-left:0.4em;
 }
 
-a.toc {
+a.toc, a.toc:active, a.toc:visited {
   color: #cc6714;
   text-decoration:none;
 }
