@@ -142,9 +142,14 @@ div.footer {
   padding: 0 0.5em 0 0.5em;
 }
 
-div.footer p {
+div.footer p, div.footer .pageinfo {
   color:#89817f;
   padding: 0.2em;
+}
+
+div.footer .pageinfo {
+  text-align: right;
+  border-bottom: 1px dotted #89817f;
 }
 		
 div.footer p a {

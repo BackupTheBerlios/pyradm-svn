@@ -57,6 +57,7 @@
   </div>
 	  
 	<div class="footer">
+    <div class="pageinfo"><?php tpl_pageinfo()?></div>
     <p>Copyright &copy; 2006 Alexey Remizov | Design mostly based on work <a href="http://www.oswd.org/design/preview/id/2429">&ldquo;Leaves&rdquo;</a> by <a href="http://smallpark.org">SmallPark</a></p>
   </div>
 </div>
