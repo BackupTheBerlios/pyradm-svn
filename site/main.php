@@ -48,10 +48,10 @@
     <?php tpl_content(); ?>
     <div class="page_controls">
       <div style="float: right">
-        <?php tpl_button('login')?>
-        <?php tpl_button('admin')?>
+        <?php tpl_button('edit')?>
       </div>
-      <?php tpl_button('edit')?>
+      <?php tpl_button('login')?>
+      <?php tpl_button('admin')?>
     </div>
   </div>
 	  
