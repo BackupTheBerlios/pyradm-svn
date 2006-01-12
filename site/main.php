@@ -24,7 +24,7 @@
 
 	<div class="header">
 	  <h1><?php tpl_link(wl(),$conf['title'],'name="top" accesskey="h" title="[ALT+H]"')?></h1>
-	  <p>CLI administration tool for Cyrus IMAP server</p>
+	  <p>CLI administrative tool for Cyrus IMAP server</p>
     <?php tpl_searchform() ?>
 	</div>
 
