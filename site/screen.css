@@ -131,6 +131,7 @@ div.content {
 }
 
 div.page_controls {
+  margin-top: 2em;
   border-top: 1px solid #CCC;
 }
 
@@ -248,7 +249,8 @@ input.missing {
 input.button, button.button{
   margin: 0;
   padding: 0;
-  border: 0;  
+  border-right: 1px dotted #cccccc;
+  border-bottom: 1px dotted #cccccc;
   color: Black;
   background-color: white;
   vertical-align: middle;
@@ -258,14 +260,17 @@ input.button, button.button{
   display: inline;
 }
 
+div.secedit {
+  margin-top: -1em;
+}
+
 div.secedit input.button {
-  border: 1px solid #8cacbb;
   color: Black;
   background-color: white;
   vertical-align: middle;
   text-decoration:none;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   cursor: pointer;
   float:right;
   display: inline;
