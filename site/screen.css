@@ -636,7 +636,8 @@ ul.toc li.clear {
 }
 
 a.toc {
-  color: #436976;
+/*  color: #436976; */
+  color: #606060;
   text-decoration:none;
 }
 
