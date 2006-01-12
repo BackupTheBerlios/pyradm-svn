@@ -310,19 +310,20 @@ div.pagenav-next input.button {
 /* --------------- Links ------------------ */
 
 a {
-  color:#436976;
+  color:#cc6714;
   text-decoration:none;
 }
 a:hover {
-  color:#000000;
-  text-decoration:underline;
+  color:#cc6714;
+  background-color: #f5f5f5;
+/*  text-decoration:underline; */
 }
 
 /* external link */
 a.urlextern{
     background: transparent url(images/link_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
-    color:#436976;
+    color:#cc6714;
     text-decoration:none;
 }
 a.urlextern:visited {
@@ -336,7 +337,7 @@ a.urlextern:hover {
 a.windows{
     background: transparent url(images/windows.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
-    color:#436976;
+    color:#cc6714;
     text-decoration:none;
 } 
 a.windows:visited {
@@ -350,7 +351,7 @@ a.windows:hover {
 a.interwiki{
     background: transparent url(images/interwiki.png) 0px 1px no-repeat;
 		padding-left: 16px;
-    color:#436976;
+    color:#cc6714;
     text-decoration:none;
 }
 a.interwiki:visited {
@@ -362,23 +363,24 @@ a.interwiki:hover {
 
 /* link to some embedded media */
 a.media {
-  color:#436976;
+  color:#cc6714;
   text-decoration:none;
 }
 a.media:hover {
-  color:#436976;
-  text-decoration:underline
+  color:#cc6714;
+  background-color: #f5f5f5;
 }
 
 /* email link */
 a.mail {
   background: transparent url(images/mail_icon.gif) 0px 1px no-repeat;
   padding: 1px 0px 1px 16px;
-  color:#436976;
+  color:#cc6714;
   text-decoration:none;
 }
 a.mail:hover {
-  text-decoration:underline;
+  color:#cc6714;
+  background-color: #f5f5f5;
 }
 
 /* existing wikipage */
@@ -642,14 +644,13 @@ ul.toc li.clear {
 }
 
 a.toc {
-/*  color: #436976; */
-  color: #606060;
+  color: #cc6714;
   text-decoration:none;
 }
 
 a.toc:hover {
-  color: #000000;
-  text-decoration:underline; 
+  color: #cc6714;
+  background-color: #f5f5f5;
 }
 
 /* ---------------------------- Diff rendering --------------------------*/
@@ -903,12 +904,13 @@ div.mediaedit div.data input.button {
 }
 
 .pagename a:link, .pagename a:visited {
-  color:#436976;
+  color:#cc6714;
   text-decoration:none;
 }
 
 .pagename a:hover, .pagename a:active {
-  color:#FF9933;
+  color:#CC6714;
+  background-color: #F5F5F5;
 }
 
 .logo {
