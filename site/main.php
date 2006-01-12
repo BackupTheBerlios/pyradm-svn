@@ -45,6 +45,11 @@
 
   <div class="content">
   <?php tpl_content(); ?>
+    <div class="page_controls">
+      <?php tpl_button('edit')?>
+      <?php tpl_button('login')?>
+      <?php tpl_button('admin')?>
+    </div>
   </div>
 	  
 	<div class="footer">
