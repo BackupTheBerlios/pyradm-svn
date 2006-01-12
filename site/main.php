@@ -32,6 +32,7 @@
 		<ul>
 			<li><a href="/">Home</a></li>
 			<li><a href="https://developer.berlios.de/projects/pyradm/">BerliOS project</a></li>
+			<li><a href="doku.php?id=links">Links</a></li>
       <li><form class="button" name="indexform" method="get" action="/doku.php" onsubmit="return svchk()"><input type="hidden" name="do" value="index" /><input type="hidden" name="id" value="start" /><a onclick="document.forms.indexform.submit(); return false" href="#">Site map</a></form></li>
       <!-- li><p><strong>A tiny little service announcement.</strong><br/>Put all your little tidbits of information or pictures in this small yet useful little area. </p></li -->
 		</ul>
