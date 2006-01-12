@@ -25,9 +25,9 @@ div.page {
 
 div.header {
   border-bottom: 4px solid #948979;
-  padding-top: 10px;
+  padding-top: 0.5em;
   clear: both;
-  margin-bottom: 10px;
+  margin-bottom: 0.5em;
 }
 
 div.header p { 
@@ -397,10 +397,9 @@ div.preview{
 }
 
 div.breadcrumbs{
-  background-color: #f5f5f5;
   font-size:80%;
   color: #666666;
-  padding-left: 4px;
+  border-bottom: 1px solid #948979;
 }
 
 span.user{

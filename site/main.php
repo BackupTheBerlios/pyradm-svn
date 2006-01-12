@@ -44,7 +44,8 @@
   </div>
 
   <div class="content">
-  <?php tpl_content(); ?>
+    <div class="breadcrumbs"><?php tpl_breadcrumbs()?></div>
+    <?php tpl_content(); ?>
     <div class="page_controls">
       <?php tpl_button('edit')?>
       <?php tpl_button('login')?>
