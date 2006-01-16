@@ -1,23 +1,26 @@
 #!/usr/bin/python
 
-from os.path import expanduser
-from config import Config
+import sys
+import Config
 from pyIMAP import IMAP, IMAPError
 from cli import IMAPAdminCLI
 
-configFile = expanduser("~") + "/.pyradm"
 try:
-  configF = eval(file(configFile).readlines())
-  config = Config()
+  options = Config.parseOptions(sys.argv)
 
-  try:
-    imap = IMAP(config['server']['host'], config['server']['port'], config['connection']['ssl'])
-    imap.login(config['credentials']['user'], config['credentials']['passwd'])
-    cli = IMAPAdminCLI(imap, config)
+  if options["help"]:
+    printHelp()
+  else:
+    config = Config(options["config"])
+    if not options["maintain"]:
+      imapServer = IMAPServer(config)
+    else:
+      imapServer = None
+    cli = IMAPAdminCLI(config, imapServer)
     cli.run()
 
-  except IMAPError, e:
-    print "ERROR: " + str(e)
+except Config.OptionsExceptions, e:
+except Config.ConfigException, e:
+  print e
 
-except IOError, e:
-  print "ERROR: can't read config file: %s" % (str(e))
+# vim:ts=2:sw=2:et

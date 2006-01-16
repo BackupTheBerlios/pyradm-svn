@@ -15,7 +15,7 @@ class Config:
     self['server']['host'] = "imap.ric.cad.ru"
     self['server']['port'] = 993
     self['credentials']['user'] = "admin"
-    self['credentials']['passwd'] = "K3iAhcDz"
+    self['credentials']['passwd'] = ""
     self['connection']['ssl'] = True
 
     self['sharedMB']['defaultACL'] = [("anyone", "p"), ("admin", "lrswipcda")]
