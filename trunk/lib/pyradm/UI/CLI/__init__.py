@@ -1,3 +1,5 @@
+__all__ = ["CLI"]
+
 from string import split, strip
 from pyIMAP import IMAPError
 import readline

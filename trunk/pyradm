@@ -4,7 +4,7 @@
 import sys
 sys.path[0] += "/lib"
 
-from pyradm import Help, Config, Options, ConfigException, OptinsException
+from pyradm import Help, Config, Options, ConfigException, OptionsException
 from pyradm.UI import CLI 
 
 Help["usage"] = """
@@ -20,10 +20,10 @@ sys.exit()
 try:
   options = Options()
 
-  if options.help:
+  if options["help"]:
     print Help["usage"]
   else:
-    ui = CLI(Config(options.configFile), options.maintain)
+    ui = CLI(Config(options["config"], options["maintain"])
     ui.run()
 
 except OptionsException, e:
