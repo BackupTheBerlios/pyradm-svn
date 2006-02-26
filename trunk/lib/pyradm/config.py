@@ -1,13 +1,13 @@
-__all__ = ["Config", "ConfigException", "Options", "OptionsException"]
+__all__ = ["Config", "ConfigFileException", "Options", "OptionsException"]
 
 import pickle
 import sys, os
 from getopt import getopt, GetoptError
 
-class ConfigException(Exception):
+class ConfigFileException(Exception):
   """TODO"""
 
-  def __init__(self, msg = "ConfigException"):
+  def __init__(self, msg = "ConfigFileException"):
 
     self.__msg = msg
 
@@ -48,32 +48,8 @@ class Config:
 
     self.__fileName = fileName
 
-    try:
-
-      self.load()
+    self.load()
       
-    except ConfigException:
-
-      try:
-        self['server'] = {}
-        self['credentials'] = {}
-        self['connection'] = {}
-        self['sharedMB'] = {}
-
-        self['server']['host'] = "imap.ric.cad.ru"
-        self['server']['port'] = 993
-        self['credentials']['user'] = "cyrus"
-        self['credentials']['passwd'] = ""
-        self['connection']['ssl'] = True
-
-        self['sharedMB']['defaultACL'] = [("anyone", "p"), ("cyrus", "lrswipcda")]
-        self['sharedMB']['defaultChildrens'] = ["spam"]
-
-        self.save()
-
-      except ConfigException:
-        raise ConfigException("Can't create config file %s\n" % (self.__fileName))
-
   def load(self):
     """TODO"""
 
@@ -82,7 +58,7 @@ class Config:
       Config.__config__ = pickle.load(f)
 
     except IOError:
-      raise ConfigException("Can't load config file %s" % (self.__fileName))
+      raise ConfigFileException("Can't load config file %s" % (self.__fileName))
 
   def save(self):
     """TODO"""
@@ -93,7 +69,7 @@ class Config:
       pickle.dump(Config.__config__, f)
 
     except IOError:
-      raise ConfigException("Can't save config file %s" % (self.__fileName))
+      raise ConfigFileException("Can't save config file %s" % (self.__fileName))
 
 class Options:
 
@@ -115,12 +91,12 @@ class Options:
     """TODO"""
 
     try:
-      options = getopt(args, "c:mh", ["config=", "maintain", "help"])
-      
       self["config"] = os.getenv("HOME") + "/.pyradm"
       self["help"] = False
       self["maintain"] = False
 
+      options = getopt(args, "c:mh", ["config=", "maintain", "help"])
+      
       for option in options[0]:
         if option[0] in ["-c", "--config"]:
           self["config"] = option[1]
