@@ -40,7 +40,8 @@ class OptionsException(Exception):
 class Config:
   """TODO"""
 
-  __config__ = {}
+  __config__ = None
+  __password__ = None
 
   def __setitem__(self, key, value):
 
@@ -58,7 +59,10 @@ class Config:
     """TODO"""
 
     if not Config.__config__:
-      Config.__config__ = {}
+      Config.__config__ = {
+        'default_server': None,
+        'imap_servers': {}
+      }
 
   def load(self):
     """TODO"""
@@ -80,6 +84,17 @@ class Config:
 
     except IOError:
       raise FileException("Can't save config file %s" % (self.__fileName))
+
+  def exists(self):
+    """TODO"""
+
+    try:
+      file(Options()["config"]).close()
+      exists = True
+    except IOError:
+      exists = False
+
+    return exists
 
 class Options:
 
