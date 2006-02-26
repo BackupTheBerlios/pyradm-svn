@@ -11,7 +11,18 @@ class FileException(Exception):
 
     self.__msg = msg
 
-  def __repr__(self):
+  def __str__(self):
+
+    return str(self.__msg)
+
+class ParseException(Exception):
+  """TODO"""
+
+  def __init__(self, msg = "Config.ParseException"):
+
+    self.__msg = msg
+
+  def __str__(self):
 
     return str(self.__msg)
 
@@ -22,7 +33,7 @@ class OptionsException(Exception):
 
     self.__msg = msg
 
-  def __repr__(self):
+  def __str__(self):
 
     return str(self.__msg)
 
@@ -43,13 +54,12 @@ class Config:
 
     return str(Config.__config__)
 
-  def __init__(self, fileName):
+  def __init__(self):
     """TODO"""
 
-    self.__fileName = fileName
+    if not Config.__config__:
+      Config.__config__ = {}
 
-    self.load()
-      
   def load(self):
     """TODO"""
 
@@ -73,7 +83,7 @@ class Config:
 
 class Options:
 
-  __options__ = {}
+  __options__ = None
 
   def __setitem__(self, key, value):
 
@@ -87,25 +97,30 @@ class Options:
 
     return str(Options.__options__)
 
-  def __init__(self, args = sys.argv[1:]):
+  def __init__(self):
+
+    if not Options.__options__:
+      Options.__options__ = {
+        'config': os.getenv("HOME") + "/.pyradm",
+        'help': False,
+        'maintain': False
+      }
+
+  def getopt(self, args = sys.argv[1:]):
     """TODO"""
 
     try:
-      self["config"] = os.getenv("HOME") + "/.pyradm"
-      self["help"] = False
-      self["maintain"] = False
-
       options = getopt(args, "c:mh", ["config=", "maintain", "help"])
       
       for option in options[0]:
         if option[0] in ["-c", "--config"]:
-          self["config"] = option[1]
+          self['config'] = option[1]
         elif option[0] in ["-h", "--help"]:
-          self["help"] = True
+          self['help'] = True
         elif option[0] in ["-m", "--maintain"]:
-          self["maintain"] = True
+          self['maintain'] = True
 
     except GetoptError, e:
-      raise OptionsError(str(e))
+      raise OptionsException(str(e))
 
 # vim:ts=2:sw=2:et

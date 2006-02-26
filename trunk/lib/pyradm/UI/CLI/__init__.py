@@ -1,19 +1,20 @@
-__all__ = ["CLI"]
+__all__ = ["UI"]
 
 from string import split, strip
 from pyIMAP import IMAPError
+from pyradm.Config import Config
 import readline
 import handlers
 
-class CLI:
+class UI:
   """TODO"""
 
-  def __init__(self, imapAdmin, config):
+  def __init__(self, imapAdmin = None, config = None):
     """TODO"""
 
-    self.__config = config
+    self.__config = Config()
     self.__imapAdmin = imapAdmin
-    self.__prompt = config['credentials']['user'] + "@" + config['server']['host'] + ": "
+#    self.__prompt = Config()['credentials']['user'] + "@" + config['server']['host'] + ": "
     self.__commands = []
 
     self.command("logout", "quit", handlers.logout)
