@@ -1,6 +1,4 @@
-__all__ = ["UI", "Config", "Options", "IMAPAdmin", "Help", "QuitException"]
-
-from config import *
+__all__ = ["UI", "Config", "IMAPAdmin", "Help", "QuitException"]
 
 Help = {}
 

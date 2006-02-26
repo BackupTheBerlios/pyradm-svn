@@ -4,7 +4,7 @@
 import sys
 sys.path[0] += "/lib"
 
-from pyradm import Help, Config, Options, ConfigFileException, OptionsException, QuitException
+from pyradm import Help, Config, QuitException
 from pyradm.utils import yes
 from pyradm.UI import CLI 
 
@@ -16,23 +16,23 @@ Usage: pyradm [options]
 """
 
 try:
-  options = Options()
+  options = Config.Options()
 
   if options["help"]:
     print Help["usage"]
   else:
     try:
-      config = Config(options["config"])
-    except ConfigFileException:
+      config = Config.Config(options["config"])
+    except Config.FileException:
       if yes("Config file %s don't exists.\nDo you want to run maintenance mode to create it?" % (options["config"])):
         options["maintain"] = True
       else:
         raise QuitException()
       
-    ui = CLI(Config(options["config"], options["maintain"]))
+    ui = CLI(config, options["maintain"])
     ui.run()
 
-except OptionsException, e:
+except Config.OptionsException, e:
   print e
 except QuitException: pass
 

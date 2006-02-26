@@ -1,13 +1,13 @@
-__all__ = ["Config", "ConfigFileException", "Options", "OptionsException"]
+__all__ = ["Config", "FileException", "Options", "OptionsException"]
 
 import pickle
 import sys, os
 from getopt import getopt, GetoptError
 
-class ConfigFileException(Exception):
+class FileException(Exception):
   """TODO"""
 
-  def __init__(self, msg = "ConfigFileException"):
+  def __init__(self, msg = "Config.FileException"):
 
     self.__msg = msg
 
@@ -18,7 +18,7 @@ class ConfigFileException(Exception):
 class OptionsException(Exception):
   """TODO"""
 
-  def __init__(self, msg = "OptionsException"):
+  def __init__(self, msg = "Config.OptionsException"):
 
     self.__msg = msg
 
@@ -58,7 +58,7 @@ class Config:
       Config.__config__ = pickle.load(f)
 
     except IOError:
-      raise ConfigFileException("Can't load config file %s" % (self.__fileName))
+      raise FileException("Can't load config file %s" % (self.__fileName))
 
   def save(self):
     """TODO"""
@@ -69,7 +69,7 @@ class Config:
       pickle.dump(Config.__config__, f)
 
     except IOError:
-      raise ConfigFileException("Can't save config file %s" % (self.__fileName))
+      raise FileException("Can't save config file %s" % (self.__fileName))
 
 class Options:
 
