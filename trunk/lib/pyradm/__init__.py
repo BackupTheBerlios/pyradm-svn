@@ -1,5 +1,5 @@
-__all__ = ["UI", "Config", "IMAPAdmin", "Help"]
+__all__ = ["UI", "Config", "Options", "IMAPAdmin", "Help"]
 
-from help import Help
+from config import Config, Options
 
-Help = help.Help()
+Help = {}

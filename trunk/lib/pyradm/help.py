@@ -1,16 +1,16 @@
-__help__ = {}
-
 class Help:
   """TODO"""
+
+  __help__ = {}
 
   def __setitem__(self, topic, message):
     """TODO"""
 
-    __help__[topic] = message
+    Help.__help__[topic] = message
 
   def __getitem__(self, topic):
     """TODO"""
 
-    return __help__[topic]
+    return Help.__help__[topic]
 
 # vim:ts=2:sw=2:et

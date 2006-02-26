@@ -1,26 +1,34 @@
 #!/usr/bin/python
 
+# FIXME
 import sys
-import Config
-from pyIMAP import IMAP, IMAPError
-from cli import IMAPAdminCLI
+sys.path[0] += "/lib"
+
+from pyradm import Help, Config, Options, ConfigException, OptinsException
+from pyradm.UI import CLI 
+
+Help["usage"] = """
+Usage: pyradm [options]
+        -m, -maintain           maintenance mode; don't connect to server
+        -c, -config <filename>  use config file other than $HOME/.pyradmrc
+        -h, -help               print help text
+"""
+
+print Help["usage"]
+sys.exit()
 
 try:
-  options = Config.parseOptions(sys.argv)
+  options = Options()
 
-  if options["help"]:
-    printHelp()
+  if options.help:
+    print Help["usage"]
   else:
-    config = Config(options["config"])
-    if not options["maintain"]:
-      imapServer = IMAPServer(config)
-    else:
-      imapServer = None
-    cli = IMAPAdminCLI(config, imapServer)
-    cli.run()
+    ui = CLI(Config(options.configFile), options.maintain)
+    ui.run()
 
-except Config.OptionsExceptions, e:
-except Config.ConfigException, e:
+except OptionsException, e:
+  print e
+except ConfigException, e:
   print e
 
 # vim:ts=2:sw=2:et
