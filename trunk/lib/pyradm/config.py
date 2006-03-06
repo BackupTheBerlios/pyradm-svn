@@ -1,10 +1,12 @@
-__all__ = ["Config", "FileException", "Options", "OptionsException"]
+__all__ = ["Config", "IOError", "ParseError"]
 
 import pickle
 import sys, os
 from getopt import getopt, GetoptError
 
-class FileException(Exception):
+from pyradm import Options
+
+class IOError(Exception):
   """TODO"""
 
   def __init__(self, msg = "Config.FileException"):
@@ -15,7 +17,7 @@ class FileException(Exception):
 
     return str(self.__msg)
 
-class ParseException(Exception):
+class ParseError(Exception):
   """TODO"""
 
   def __init__(self, msg = "Config.ParseException"):
@@ -26,30 +28,19 @@ class ParseException(Exception):
 
     return str(self.__msg)
 
-class OptionsException(Exception):
-  """TODO"""
-
-  def __init__(self, msg = "Config.OptionsException"):
-
-    self.__msg = msg
-
-  def __str__(self):
-
-    return str(self.__msg)
-
 class Config:
   """TODO"""
 
-  __config__ = None
-  __password__ = None
+  __config = None
+  __password = None
 
   def __setitem__(self, key, value):
 
-    Config.__config__[key] = value
+    Config.__config[key] = value
 
   def __getitem__(self, key):
 
-    return Config.__config__[key]
+    return Config.__config[key]
 
   def __repr__(self):
 
@@ -58,8 +49,8 @@ class Config:
   def __init__(self):
     """TODO"""
 
-    if not Config.__config__:
-      Config.__config__ = {
+    if not Config.__config:
+      Config.__config = {
         'default_server': None,
         'imap_servers': {}
       }
@@ -68,22 +59,22 @@ class Config:
     """TODO"""
 
     try:
-      f = file(self.__fileName)
-      Config.__config__ = pickle.load(f)
+      f = file(Options()['config'])
+      Config.__config = pickle.load(f)
 
     except IOError:
-      raise FileException("Can't load config file %s" % (self.__fileName))
+      raise FileException("Can't load config file %s" % (Options()['config']))
 
   def save(self):
     """TODO"""
 
     try:
     
-      f = file(self.__fileName, "w")
-      pickle.dump(Config.__config__, f)
+      f = file(Options()['config'], "w")
+      pickle.dump(Config.__config, f)
 
     except IOError:
-      raise FileException("Can't save config file %s" % (self.__fileName))
+      raise FileException("Can't save config file %s" % (Options()['config']))
 
   def exists(self):
     """TODO"""

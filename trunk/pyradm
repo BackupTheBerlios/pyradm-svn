@@ -1,11 +1,10 @@
 #!/usr/bin/python
 
-# FIXME
+# FIXME 
 import sys
 sys.path[0] += "/lib"
 
-from pyradm import Help, Config
-from pyradm.utils import yes
+from pyradm import Help, Config, Options
 from pyradm.UI import CLI 
 
 Help["usage"] = """
@@ -16,18 +15,13 @@ Usage: pyradm [options]
 """
 
 try:
-  Config.Options().getopt()
-
-  if Config.Options()["help"]:
+  if Options()["help"]:
     print Help["usage"]
   else:
-    CLI.UI().run()
+    CLI().run()
 
-except Config.OptionsException, e:
+except e:
   print "ERROR: %s" % (e)
   print Help["usage"]
-
-except Config.ParseException, e:
-  print "ERROR: %s" % (e)
 
 # vim:ts=2:sw=2:et

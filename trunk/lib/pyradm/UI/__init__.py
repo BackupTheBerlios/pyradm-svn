@@ -6,30 +6,33 @@ from pyradm.Config import Config
 import readline
 import handlers
 
+    
 class CLI:
   """TODO"""
 
-  def __init__(self, imapAdmin = None, config = None):
+  imapServer = None
+  __commands__ = None
+
+  def __init__(self):
     """TODO"""
 
-    self.__config = Config()
-    self.__imapAdmin = imapAdmin
-#    self.__prompt = Config()['credentials']['user'] + "@" + config['server']['host'] + ": "
-    self.__commands = []
-
-    self.command("logout", "quit", handlers.logout)
-    self.command("createshared", "cs", handlers.createShared)
-    self.command("deleteshared", "ds", handlers.deleteShared)
-    self.command("setacl", "sa", handlers.setACL)
-    self.command("getacl", "ga", handlers.getACL)
-    self.command("getperm", "gp", handlers.getPerm)
-    self.command("setperm", "sp", handlers.setPerm)
-    #self.command("createuser", "cu", handlers.createUser)
-
-  def command(self, command, alias = None, handler = None):
-    """TODO"""
-
-    self.__commands.append({'name': command, 'alias': alias, 'handler': handler})
+    if not CLI.__commands__:
+      CLI.commands["logout"] = handlers.logout)
+      CLI.commands["quit"] = handlers.logout)
+      CLI.commands["createshared"] = handlers.createShared)
+      CLI.commands["cs"] = handlers.createShared)
+      CLI.commands["deleteshared"] = handlers.deleteShared)
+      CLI.commands["ds"] = handlers.deleteShared)
+      CLI.commands["setacl"] = handlers.setACL)
+      CLI.commands["sa"] = handlers.setACL)
+      CLI.commands["getacl"] = handlers.getACL)
+      CLI.commands["ga"] = handlers.getACL)
+      CLI.commands["getperm"] = handlers.getPerm)
+      CLI.commands["gp"] = handlers.getPerm)
+      CLI.commands["setperm"] = handlers.setPerm)
+      CLI.commands["sp"] = handlers.setPerm)
+      #CLI.commands("createuser", "cu", handlers.createUser)
+      #CLI.commands("cu", handlers.createUser)
 
   def __getHandler(self, command):
     """TODO"""
@@ -43,10 +46,25 @@ class CLI:
   def run(self):
     """TODO"""
 
+    if Config().exists():
+      Config().setPassword(self.askPassword())
+      Config().load()
+
+      if Config()['default_server'] and not Options()['maintain']:
+        CLI.imapServer = handlers.connectIMAPServer(Config()['default_server'])
+    else:
+      if yes("Config file %s not exists.\nCreate one?"):
+        Config().setPassword(self.newPassword())
+        Config().save()
+      else:
+        raise pyradm.Abort()
+
+    self.setPrompt()
+
     try:
       while True:
         
-        line = raw_input(self.__prompt)
+        line = self.read
         args = split(s = line, maxsplit = 1)
         
         if len(args) > 0:
@@ -61,3 +79,5 @@ class CLI:
             print "ERROR: unknown command '" + args[0] + "'"
     except handlers.Logout:
       pass
+
+# vim:ts=2:sw=2:et
