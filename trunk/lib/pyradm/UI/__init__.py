@@ -1,83 +1,127 @@
-__all__ = ["CLI"]
+__all__ = ["CLI", "Command"]
 
-from string import split, strip
-from pyIMAP import IMAPError
-from pyradm.Config import Config
 import readline
+from getpass import getpass
+
+from pyIMAP import IMAPError
+from pyradm import Config, Options
+from pyradm.utils import yes
 import handlers
 
-    
+class Command:
+    """TODO"""
+
+    def __init__(self, aliases, handler, helpText = "No help available"):
+        """TODO"""
+
+        self.__handler = handler
+        self.__helpText = helpText
+        
+        for alias in aliases:
+            CLI.__commands__[alias] = self
+
+    def __call__(self, args):
+        """TODO"""
+
+        self.__handler(args)
+
 class CLI:
-  """TODO"""
-
-  imapServer = None
-  __commands__ = None
-
-  def __init__(self):
     """TODO"""
 
-    if not CLI.__commands__:
-      CLI.commands["logout"] = handlers.logout)
-      CLI.commands["quit"] = handlers.logout)
-      CLI.commands["createshared"] = handlers.createShared)
-      CLI.commands["cs"] = handlers.createShared)
-      CLI.commands["deleteshared"] = handlers.deleteShared)
-      CLI.commands["ds"] = handlers.deleteShared)
-      CLI.commands["setacl"] = handlers.setACL)
-      CLI.commands["sa"] = handlers.setACL)
-      CLI.commands["getacl"] = handlers.getACL)
-      CLI.commands["ga"] = handlers.getACL)
-      CLI.commands["getperm"] = handlers.getPerm)
-      CLI.commands["gp"] = handlers.getPerm)
-      CLI.commands["setperm"] = handlers.setPerm)
-      CLI.commands["sp"] = handlers.setPerm)
-      #CLI.commands("createuser", "cu", handlers.createUser)
-      #CLI.commands("cu", handlers.createUser)
+    __commands__ = {}
 
-  def __getHandler(self, command):
-    """TODO"""
+    def __init__(self):
+        """TODO"""
 
-    cmd = filter(lambda c: (c['name'] == command) or (c['alias'] == command), self.__commands)
-    if len(cmd) == 1 :
-      return cmd[0]['handler']
-    else:
-      return None
-    
-  def run(self):
-    """TODO"""
+        self.imapServer = None
+        self.initPrompt()
 
-    if Config().exists():
-      Config().setPassword(self.askPassword())
-      Config().load()
+    def message(self, msg):
+        """TODO"""
 
-      if Config()['default_server'] and not Options()['maintain']:
-        CLI.imapServer = handlers.connectIMAPServer(Config()['default_server'])
-    else:
-      if yes("Config file %s not exists.\nCreate one?"):
-        Config().setPassword(self.newPassword())
-        Config().save()
-      else:
-        raise pyradm.Abort()
+        print msg
 
-    self.setPrompt()
+    def askPassword(self):
+        """TODO"""
 
-    try:
-      while True:
+        return getpass("Password: ")
+
+    def askConfirmedPassword(self):
+        """TODO"""
+
+        password = getpass("Password: ")
+        password2 = getpass("Password again: ")
+
+        if (password != password2): raise CLI.PasswordsDoNotMatch()
+
+        return password
+
+    def readCommand(self):
+        """TODO"""
+
+        line = raw_input(self.__prompt)
+        # FIXME parser should recognize quoting
+        words = line.split()
+        return (words[0], words[1:])
+
+    def initPrompt(self):
+        """TODO"""
+
+        # FIXME handle empty default server
+
+        try:
+            config = Config()
+            serverConfig = config['imapServers'][config['defaultServer']]
+            self.__prompt = "[%s@%s]: " % (serverConfig['username'], serverConfig['host'])
+        except:
+            self.__prompt = "[Maintenance mode]: "
         
-        line = self.read
-        args = split(s = line, maxsplit = 1)
-        
-        if len(args) > 0:
-          if len(args) < 2: args.append("")
-          handler = self.__getHandler(args[0])
-          if handler:
+    def run(self):
+        """TODO"""
+
+        config = Config()
+        options = Options()
+
+        if config.exists():
+
+            password = None
+            tries = 0
+
+            while not password and tries < 3:
+                try:
+                    password = self.askPassword()
+                    config.load()
+                except Config.BadPassword:
+                    self.message("Bad password")
+                    tries += 1
+                if tries >= 3: raise Abort()
+
+            config.load()
+
+            if config['defaultServer'] and not options['maintain']:
+                self.imapServer = handlers.connectIMAPServer(config['defaultServer'])
+            else:
+                options['maintain'] = True
+
+        else:
+
+            if yes("Config file %s not exists.\nCreate one?" % options["config"]):
+                password = self.askConfirmedPassword()
+                config.setMasterPassword(password)
+                config.save()
+            else:
+                raise Abort()
+
+        self.initPrompt()
+
+        while True:
             try:
-              handler(self.__imapAdmin, strip(args[1]))
-            except IMAPError, e:
-              print "ERROR: " + str(e)
-          else:
-            print "ERROR: unknown command '" + args[0] + "'"
-    except handlers.Logout:
-      pass
+                (command, args) = self.readCommand()
+                CLI.commands[command](args)
+            except CLI.SyntaxError, e:
+                self.message(str(e))
 
-# vim:ts=2:sw=2:et
+Command(
+    ["logout", "quit"],
+    handlers.logout,
+)

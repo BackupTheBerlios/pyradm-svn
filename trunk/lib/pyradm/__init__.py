@@ -33,8 +33,13 @@ class Options:
     def __getitem__(self, option):
         """TODO"""
 
-        if not Options.__options__: raise NotImplementedError("FIXME get option %s before initialization" %(option))
+        if not Options.__options__: raise NotImplementedError("FIXME get option %s before initialization" % (option))
         return Options.__options__[option]
+
+    def __repr__(self):
+        """TODO"""
+
+        return str(Options.__options__)
 
     def __getopt(self, args = sys.argv[1:]):
         """TODO"""
@@ -51,6 +56,8 @@ class Options:
 
 class Config:
     """TODO"""
+
+    class BadPassword(Exception): pass
 
     __config__ = None
     __masterPassword__ = None
@@ -78,16 +85,25 @@ class Config:
 
         Config.__masterPassword__ = password
 
+    def exists(self):
+        """TODO"""
+
+        try:
+            file(Options()['config']).close()
+            return True
+        except IOError:
+            return False
+
     def load(self):
         """TODO"""
 
         if not Config.__masterPassword__: raise NotImplementedError("FIXME load config before setting password")
-        Config.__config__ = pickle.load(file(Options["config"]))
+        Config.__config__ = pickle.load(file(Options()["config"]))
     
     def save(self):
         """TODO"""
         
         if not Config.__masterPassword__: raise NotImplementedError("FIXME save config before setting password")
-        pickle.dump(Config.__config__, file(Options["config"], "w"))
+        pickle.dump(Config.__config__, file(Options()["config"], "w"))
 
 class QuitException(Exception): pass
